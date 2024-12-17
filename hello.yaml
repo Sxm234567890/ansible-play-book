@@ -1,0 +1,10 @@
+---
+- hosts: websrvs
+  remote_user: root
+  gather_facts: no
+ 
+  tasks:
+    - name: test network connection
+      ping:
+    - name: excute command
+      command: wall "hello world!"
