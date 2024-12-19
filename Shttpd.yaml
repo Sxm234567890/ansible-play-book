@@ -1,0 +1,14 @@
+---
+- hosts: websrvs
+  remote_user: root
+  gather_facts: no
+
+  tasks:
+    - name: "安装apache"
+      yum: name=http
+    - name: "复制配置文件"
+      copy: src=/tmp/httpd.conf dest=/etc/httpd/conf/
+    - name: "复制配置文件"
+      copy: src=/tmp/vhosts.conf dest=/etc/httpd/conf.d/
+    - name: "启动apache，并设置开机启动"
+      service: name=httpd state=started enabled=yes
