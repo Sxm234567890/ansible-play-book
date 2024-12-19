@@ -1,0 +1,16 @@
+---
+- hosts: websrvs
+  remote_user: root
+  gather_facts: no
+
+  tasks:
+    - name: add group nginx
+      group: name=nginx  state=present
+    - name: add user nginx
+      user: name=nginx state=present group=nginx shell=/sbin/nologin #state=present 确定用户存在，如果已经存在则不做修改
+    - name: install nginx
+      yum: name=nginx state=present
+    - name: web page
+      copy: src=files/index.html  dest=/usr/share/nginx/html/index.html
+    - name: start nginx
+      service: name=nginx state=started enabled=yes
