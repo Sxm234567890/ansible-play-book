@@ -1,0 +1,15 @@
+--- 
+- hosts: websrvs
+  remote_user: root
+  gather_facts: no
+  
+
+  tasks:
+    - name: remove httpd package
+      yum: name=httpd state=absent
+    - name: remove apache user
+      user: name=apache state=absent
+    - name: remove config file
+      file: name=/etc/httpd  state=absent
+    - name: remove web html
+      file: name=/data/html/ state=absent
