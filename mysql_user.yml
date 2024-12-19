@@ -1,0 +1,9 @@
+---
+- hosts: dbsrvs
+  remote_user: root
+  gather_facts: no   #不收集系统信息
+  
+  tasks:
+     - {name: create group,group: name=mysql system=yes gid=306}
+     - name: create user
+       user: name=mysql shell=/sbin/nologin system=yes group=mysql uid=306  home=/data/mysql create_home=no
