@@ -1,0 +1,30 @@
+---
+- hosts: websrvs
+  remote_user: root
+  gather_facts: no
+
+  tasks:
+    - name: install httpd
+      yum: name=httpd
+    - name: modify config list port 
+      lineinfile:
+        path: /etc/httpd/conf/httpd.conf
+        regexp: '^Listen'
+        line: 'Listen 8080'
+    - name: Modify config data1
+      lineinfile:
+        path: /etc/httpd/conf/httpd.conf
+        regexp: '^DocumentRoot "/var/www/html"'
+        line: 'DocumentRoot "/data/html"'
+    - name: Modify config data2
+      lineinfile:
+        path: /etc/httpd/conf/httpd.conf
+        regexp: '^<Directory "/var/ww/html">'
+        line: '<Directory "/data/html">'
+     - name: mkdir website dir
+       file: path=/data/html state=directory
+     - name: web html
+       copy: src=files/index.html dest=/data/html/
+     - name: start service
+       service: name=httpd state=started enabled=yes
+    
