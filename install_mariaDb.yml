@@ -1,0 +1,26 @@
+---
+- hosts: webservers
+  remote_user: root
+  gather_facts: no
+  
+  tasks:
+    - name: create group
+      group: name=mysql gid=27  system=yes
+    - name: create user
+      user: name=mysql uid=27 system=yes group=mysql shell=/sbin/nologin home=/data/mysql create_home=no
+    - name: mkdir datadir
+      file: path=/data/mysql owner=mysql group=mysql state=directory
+    - name: unarchive package
+      unarchive: src=/data/ansible/mariadb-10.7.tar.gz  dest=/usr/local/ owner=root group=root
+    - name: link
+      file:  src=/usr/local/mariadb-10.7  path=/usr/local/mysql  state=link
+    - name: install database
+      shell: chdir=/usr/local/mysql  ./scripts/mysql_install_db  --datadir=/data/mysql --user=mysql 
+    - name: config file
+      copy: src=/data/ansible/files/my.cnf    dest=/etc/ backup=yes
+    - name: service script
+      shell: /bin/cp /usr/local/mysql/support-files/mysql.server  /etc/init.d/mysqld
+    - name: start service
+      service: name=mysqld state=started enabled=yes
+    - name: path variable
+      copy: content='PATH=/usr/local/mysql/bin:$PATH'   dest=/etc/profile.d/mysql.sh

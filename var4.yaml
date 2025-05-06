@@ -1,0 +1,10 @@
+---
+- hosts: websrvs
+  remote_user: root
+  vars:
+     collect_info: "/data/test/{{ansible_default_ipv4['address']}}/"
+
+  tasks:
+    - name: creste ip directory
+      file: name="{{collect_info}}" state=directory
+    

@@ -1,0 +1,21 @@
+---
+- hosts: webservers
+  remote_user: root
+  gather_facts: no
+  
+  tasks:
+    - name: install httpd
+      yum: name=httpd state=present 
+    - name: config file
+      copy: src=httpd.conf   dest=/etc/httpd/conf/
+      notify:
+        - restart httpd
+        - wall
+    - name: sure httpd start
+      service: name=httpd state=started enabled=yes
+
+  handlers:
+      - name: restart httpd
+        service: name=httpd  state=restarted 
+      - name: wall
+        command: wall "this config is changed"

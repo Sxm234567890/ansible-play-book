@@ -1,0 +1,10 @@
+---
+- hosts: webservers
+  remote_user: root
+  gather_facts: no
+  
+  tasks: 
+   - name: stop httpd
+     service: name=httpd  state=stopped
+   - name: remove http
+     yum: name=httpd state=removed

@@ -1,0 +1,6 @@
+---
+- hosts: webservers
+  remote_user: root
+  tasks:
+    - name: install package
+      yum:  name={{ pkname}} state=present

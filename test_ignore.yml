@@ -1,0 +1,10 @@
+---
+- hosts: webservers
+  remote_user: root
+ 
+  tasks:
+    - name: error
+      command: /bin/false
+      ignore_errors: yes
+    - name: continue
+      command: wall continue
