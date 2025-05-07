@@ -1,0 +1,2 @@
+- name: user
+  user: name=apache system=yes shell=/sbin/nologin home=/var/www uid=80 group=apache

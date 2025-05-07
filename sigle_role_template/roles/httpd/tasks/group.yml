@@ -1,0 +1,2 @@
+- name: create apache group
+  group: name=apache  system=yes gid=80
